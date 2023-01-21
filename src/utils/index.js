@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export const rupiahFormat = (value) => {
   return new Intl.NumberFormat("id-ID").format(value);
 };
@@ -48,4 +50,8 @@ export const validationSchema = {
       message: "Phone number must only contain numbers and +, -, (, )",
     },
   },
+};
+
+export const cleanLocalStorage = (key) => {
+  localStorage.removeItem(key);
 };

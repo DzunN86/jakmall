@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Button,
@@ -11,23 +11,21 @@ import {
   TextArea,
 } from "../components";
 import { validationSchema } from "../utils";
+import useFormPersist from "react-hook-form-persist";
+import { StateContext } from "../state";
 
 function Delevery() {
   const [withDropshipper, setWithDropshipper] = useState(false);
-  const defaultValues = {
-    email: "",
-    phoneNumber: "",
-    deliveryAddress: "",
-    dropshipperName: "",
-    dropshipperPhone: "",
-  };
+  const { page, setPage } = useContext(StateContext);
 
-  const { control, handleSubmit } = useForm({
-    defaultValues,
-  });
+  const { control, handleSubmit, watch, setValue } = useForm();
+
+  // Persist form data to localStorage
+  useFormPersist("form-delevery", { watch, setValue, storage: localStorage });
 
   const onSubmit = (data) => {
     console.log(data);
+    setPage(2);
   };
   return (
     <>
