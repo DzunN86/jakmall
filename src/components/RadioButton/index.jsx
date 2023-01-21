@@ -1,13 +1,14 @@
 import React from "react";
+import { rupiahFormat } from "../../utils";
 import { RadioInput, RadioLabel, RadioWrapper } from "./radioButton.style";
 
-function RadioButton({ name, label1, label2 }) {
+function RadioButton({ id, name, label1, label2 }) {
   return (
     <>
-      <RadioInput id={name} name={name} />
-      <RadioWrapper htmlFor={name}>
+      <RadioInput id={id} name={name} />
+      <RadioWrapper htmlFor={id}>
         <RadioLabel>{label1}</RadioLabel>
-        <RadioLabel bold>{label2}</RadioLabel>
+        {label2 && <RadioLabel bold>{rupiahFormat(label2)}</RadioLabel>}
       </RadioWrapper>
     </>
   );

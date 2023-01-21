@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Button,
   CheckBox,
@@ -8,8 +10,25 @@ import {
   Paragraph,
   TextArea,
 } from "../components";
+import { validationSchema } from "../utils";
 
 function Delevery() {
+  const [withDropshipper, setWithDropshipper] = useState(false);
+  const defaultValues = {
+    email: "",
+    phoneNumber: "",
+    deliveryAddress: "",
+    dropshipperName: "",
+    dropshipperPhone: "",
+  };
+
+  const { control, handleSubmit } = useForm({
+    defaultValues,
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <>
       <Paragraph
@@ -24,15 +43,50 @@ function Delevery() {
         <Flex direction="column" width="70%">
           <Flex justify="space-between" className="mb-2">
             <Heading1Mark>Delivery details</Heading1Mark>
-            <CheckBox label="Send as dropshipper" />
+            <CheckBox
+              label="Send as dropshipper"
+              onChange={() => setWithDropshipper(!withDropshipper)}
+            />
           </Flex>
-          <div className="form-wrapper">
-            <Input name={"Name"} error="Jancok" />
-            <Input name={"Dropshipper name"} />
-            <Input name={"Phone Number"} />
-            <Input name={"Dropshipper phone number"} />
-            <TextArea maxChar={20} name={"Delivery Address"} />
-          </div>
+          <Flex gap="20px">
+            <Flex direction="column" gap="20px" width="60%">
+              <Input
+                control={control}
+                label="Email"
+                name="email"
+                rules={validationSchema.email}
+              />
+              <Input
+                control={control}
+                label="Phone Number"
+                name="phoneNumber"
+                rules={validationSchema.phoneNumber}
+              />
+              <TextArea
+                maxChar={120}
+                control={control}
+                label="Delivery Address"
+                name="deliveryAddress"
+                rules={validationSchema.deliveryAddress}
+              />
+            </Flex>
+            {withDropshipper && (
+              <Flex direction="column" gap="20px" width="40%">
+                <Input
+                  control={control}
+                  label="Dropshipper name"
+                  name="dropshipperName"
+                  rules={validationSchema.dropshipperName}
+                />
+                <Input
+                  control={control}
+                  label="Dropshipper phone number"
+                  name="dropshipperPhone"
+                  rules={validationSchema.dropshipperPhone}
+                />
+              </Flex>
+            )}
+          </Flex>
         </Flex>
         <Flex
           direction="column"
@@ -49,10 +103,12 @@ function Delevery() {
               <Paragraph>Cost of goods</Paragraph>
               <Paragraph bold>500,000</Paragraph>
             </Flex>
-            <Flex justify="space-between" noWrap>
-              <Paragraph>Dropshipping Fee</Paragraph>
-              <Paragraph bold>5,900</Paragraph>
-            </Flex>
+            {withDropshipper && (
+              <Flex justify="space-between" noWrap>
+                <Paragraph>Dropshipping Fee</Paragraph>
+                <Paragraph bold>5,900</Paragraph>
+              </Flex>
+            )}
             <Flex
               justify="space-between"
               noWrap
@@ -61,7 +117,9 @@ function Delevery() {
               <Heading2>Total</Heading2>
               <Heading2>505,900</Heading2>
             </Flex>
-            <Button>Continue to Payment</Button>
+            <Button onClick={handleSubmit(onSubmit)}>
+              Continue to Payment
+            </Button>
           </Flex>
         </Flex>
       </Flex>

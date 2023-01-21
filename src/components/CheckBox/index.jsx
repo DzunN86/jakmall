@@ -1,10 +1,10 @@
 import { Checkbox, CheckboxLabel, FormControl } from "./checkBox.style";
 
-function CheckBox({ label }) {
+function CheckBox({ label, ...props }) {
   return (
     <>
       <FormControl>
-        <Checkbox id="dropshipper" />
+        <Checkbox id="dropshipper" {...props} />
         <CheckboxLabel htmlFor="dropshipper">{label}</CheckboxLabel>
       </FormControl>
     </>

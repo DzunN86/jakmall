@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Card,
   Flex,
@@ -7,38 +7,45 @@ import {
   StepperNumber,
   StepperWrapper,
 } from "./components";
+import { Steps } from "./constans";
 import Delevery from "./pages/Delevery";
 import Finish from "./pages/Finish";
 import Payment from "./pages/Payment";
+import { StateContext, StateProvider } from "./state";
 import { GlobalStyle } from "./themes";
 
-function App() {
-  const [step, setStep] = useState(2);
+function Page() {
+  const { page, setPage } = useContext(StateContext);
   return (
     <>
-      <GlobalStyle />
       <Flex align="center" justify="center" width="100%">
         <StepperWrapper>
-          <Stepper onClick={() => setStep(1)}>
-            <StepperNumber active>1</StepperNumber>
-            <StepperLabel>Delivery</StepperLabel>
-          </Stepper>
-          <Stepper onClick={() => setStep(2)}>
-            <StepperNumber>2</StepperNumber>
-            <StepperLabel>Payment</StepperLabel>
-          </Stepper>
-          <Stepper onClick={() => setStep(3)}>
-            <StepperNumber>3</StepperNumber>
-            <StepperLabel>Finish</StepperLabel>
-          </Stepper>
+          {Steps.map((step, index) => (
+            <Stepper onClick={() => setPage(index + 1)} key={step.id}>
+              <StepperNumber active={page === index + 1}>
+                {step.id}
+              </StepperNumber>
+              <StepperLabel>{step.title}</StepperLabel>
+            </Stepper>
+          ))}
         </StepperWrapper>
       </Flex>
       <Card>
-        {step === 1 && <Delevery />}
-        {step === 2 && <Payment />}
-        {step === 3 && <Finish />}
+        {page === 1 && <Delevery />}
+        {page === 2 && <Payment />}
+        {page === 3 && <Finish />}
       </Card>
     </>
+  );
+}
+
+function App() {
+  const [step, setStep] = useState(1);
+  return (
+    <StateProvider>
+      <GlobalStyle />
+      <Page />
+    </StateProvider>
   );
 }
 

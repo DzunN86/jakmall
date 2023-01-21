@@ -13,31 +13,32 @@ function Input({
   ...props
 }) {
   return (
-    // <Controller
-    //   name={name}
-    //   control={control}
-    //   rules={rules}
-    //   render={({
-    //     field: { value, onChange, onBlur },
-    //     fieldState: { error },
-    //   }) => (
-    <>
-      <FormFloating>
-        <FormInput
-          type="text"
-          id="name"
-          placeholder={name}
-          error={error}
-          {...props}
-        />
-        <FormLabel htmlFor="name" error={error}>
-          {name}
-        </FormLabel>
-        {error && <FormError>{error}</FormError>}
-      </FormFloating>
-    </>
-    //   )}
-    // />
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({
+        field: { value, onBlur, onChange, ref },
+        fieldState: { error },
+      }) => (
+        <FormFloating>
+          <FormInput
+            type="text"
+            placeholder={name}
+            error={error}
+            value={value}
+            onBlur={onBlur}
+            onChange={onChange}
+            inputRef={ref}
+            {...props}
+          />
+          <FormLabel htmlFor={name} error={error}>
+            {label}
+          </FormLabel>
+          {error && <FormError>{error.message || "Invalid"}</FormError>}
+        </FormFloating>
+      )}
+    />
   );
 }
 

@@ -7,6 +7,7 @@ import {
   Paragraph,
   RadioButton,
 } from "../components";
+import { Payments, Shipments } from "../constans";
 
 function Payment() {
   return (
@@ -24,17 +25,29 @@ function Payment() {
           <Flex direction="column" className="mb-4">
             <Heading1Mark className="mb-2">Shipment</Heading1Mark>
             <Flex gap="10px" width="70%">
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
+              {Shipments.map((shipment) => (
+                <RadioButton
+                  name="shipment"
+                  label1={shipment.title}
+                  label2={shipment.price}
+                  id={shipment.id}
+                  key={shipment.id}
+                />
+              ))}
             </Flex>
           </Flex>
           <Flex direction="column" className="mb-4">
             <Heading1Mark className="mb-2">Payment</Heading1Mark>
             <Flex gap="10px" width="70%">
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
-              <RadioButton name="shipment" label1="GO-SEND" label2="15,000" />
+              {Payments.map((payment) => (
+                <RadioButton
+                  name="payment"
+                  label1={payment.title}
+                  label2={payment.saldo}
+                  id={payment.title}
+                  key={payment.id}
+                />
+              ))}
             </Flex>
           </Flex>
         </Flex>
